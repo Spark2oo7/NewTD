@@ -16,7 +16,7 @@ public class Mina : MonoBehaviour
 
     void Start()
     {
-        map_t = tower.map_t;
+        map_t = tower.map;
         CellPosition = map_t.WorldToCell(transform.position);
         Invoke("Activation", delay);
     }

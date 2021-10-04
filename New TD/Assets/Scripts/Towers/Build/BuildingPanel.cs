@@ -10,10 +10,11 @@ public class BuildingPanel : MonoBehaviour
     public int index = 0;
     public TileBase tile;
     public GameObject towerObject;
+    public TowerParameters.Type type;
     public GameObject select;
     public BuildingsPanelManager panelManager;
 
-    public void SetParameters(int priceTower, Sprite iconTower, int indexTower, TileBase tileTower, GameObject obj, BuildingsPanelManager BMP)
+    public void SetParameters(int priceTower, Sprite iconTower, int indexTower, TileBase tileTower, GameObject obj, TowerParameters.Type typeTower, BuildingsPanelManager BMP)
     {
         price = priceTower;
         priceText.text = price.ToString();
@@ -22,6 +23,7 @@ public class BuildingPanel : MonoBehaviour
         panelManager = BMP;
         tile = tileTower;
         towerObject = obj;
+        type = typeTower;
     }
 
     public GameObject GetSelect()
@@ -31,6 +33,6 @@ public class BuildingPanel : MonoBehaviour
 
     public void Click()
     {
-        panelManager.OnClick(index, price, tile, towerObject);
+        panelManager.OnClick(index, price, tile, towerObject, type);
     }
-}
+}	

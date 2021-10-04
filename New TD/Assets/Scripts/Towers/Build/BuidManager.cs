@@ -7,27 +7,31 @@ public class BuidManager : MonoBehaviour
     [Header("Objects")]
     public TileBase[] purpose = new TileBase[4];
     public BuildingsPanelManager panelManager;
+    public RoadsManager roadsManager;
 
     [Header("Tower")]
     public int towerPrice;
     public TileBase towerTile;
     public GameObject towerObject;
+    public TowerParameters.Type towerType;
     public bool towerEnabled = false;
 
     [Header("Tile maps")]
     public Tilemap map_f;
     public Tilemap map_t;
     public Tilemap map_p;
+    public Tilemap map_r;
 
     [Header("Camera")]
     public Camera mainCamera;
     public Collider bildings;
 
-    public void SetBuldingTower(int price, TileBase tile, GameObject obj)
+    public void SetBuldingTower(int price, TileBase tile, GameObject obj, TowerParameters.Type type)
     {
         towerPrice = price;
         towerTile = tile;
         towerObject = obj;
+        towerType = type;
     }
 
     public void towerDesable()
@@ -50,7 +54,10 @@ public class BuidManager : MonoBehaviour
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (!bildings.Raycast(ray, out _, 1f))
             {
-                Purpose();
+                if (towerType == TowerParameters.Type.road)
+                    Build();
+                else
+                    Purpose();
             }
             else
             {
@@ -89,7 +96,7 @@ public class BuidManager : MonoBehaviour
         if (!map_f.GetTile(clickCellPosition))
             return;
 
-        if ((!map_t.GetTile(clickCellPosition) && towerTile) || (map_t.GetTile(clickCellPosition) && !towerTile)) //белое
+        if ((!map_t.GetTile(clickCellPosition) && (towerType != TowerParameters.Type.delete)) || (map_t.GetTile(clickCellPosition) && (towerType == TowerParameters.Type.delete))) //белое
         {
             for (int i = -PlayerStats.gridSize; i <= PlayerStats.gridSize; i++)
             {
@@ -121,20 +128,41 @@ public class BuidManager : MonoBehaviour
             return;
         
         Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int clickCellPosition;
 
-        Vector3Int clickCellPosition = map_t.WorldToCell(clickWorldPosition);
-        if (!map_f.GetTile(clickCellPosition))
-            return;
-        if (towerTile)
+        Tilemap target_map;
+        if (towerType == TowerParameters.Type.road)
         {
-            if (!map_t.GetTile(clickCellPosition))
+            target_map = map_r;
+
+            clickCellPosition = target_map.WorldToCell(clickWorldPosition);
+
+            if (!map_f.GetTile(clickCellPosition) || !map_f.GetTile(clickCellPosition + Vector3Int.right + Vector3Int.up))
+                return;
+        }
+        else
+        {
+            target_map = map_t;
+
+            clickCellPosition = target_map.WorldToCell(clickWorldPosition);
+            
+            if (!map_f.GetTile(clickCellPosition))
+                return;
+        }
+        if (towerType != TowerParameters.Type.delete)
+        {
+            if (!target_map.GetTile(clickCellPosition))
             {
                 if (PlayerStats.money >= towerPrice)
                 {
                     PlayerStats.money -= towerPrice;
-                    map_t.SetTile(clickCellPosition, towerTile);
+                    target_map.SetTile(clickCellPosition, towerTile);
                     GameObject t = Instantiate(towerObject, clickCellPosition, transform.rotation);
-                    t.GetComponent<Tower>().map_t = map_t;
+                    t.GetComponent<Tower>().map = target_map;
+                    if (towerType == TowerParameters.Type.road)
+                    {
+                        roadsManager.InstantRoad(clickCellPosition);
+                    }
                 }
                 if (!PlayerStats.fixationSelection)
                     panelManager.Build();
@@ -142,9 +170,9 @@ public class BuidManager : MonoBehaviour
         }
         else //снос
         {
-            if (map_t.GetTile(clickCellPosition))
+            if (target_map.GetTile(clickCellPosition))
             {
-                map_t.SetTile(clickCellPosition, null);
+                target_map.SetTile(clickCellPosition, null);
                 if (!PlayerStats.fixationSelection)
                     panelManager.Build();
             }

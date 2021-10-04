@@ -13,9 +13,9 @@ public class PlayerStats : MonoBehaviour
     public static float timeToEnd;
     public float inspectortimeToEnd;
 
-    void Start()
+    void Awake()
     {
-        PlayerStats.Pause();
+        // PlayerStats.Pause();
         PlayerStats.time = 0;
         timeToEnd = inspectortimeToEnd;
         gridSize = inspectorGridSize;
