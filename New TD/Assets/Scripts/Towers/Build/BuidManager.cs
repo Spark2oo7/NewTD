@@ -157,8 +157,16 @@ public class BuidManager : MonoBehaviour
                 {
                     PlayerStats.money -= towerPrice;
                     target_map.SetTile(clickCellPosition, towerTile);
-                    GameObject t = Instantiate(towerObject, clickCellPosition, transform.rotation);
-                    t.GetComponent<Tower>().map = target_map;
+                    GameObject towerObj = Instantiate(towerObject, clickCellPosition, transform.rotation);
+                    towerObj.GetComponent<Tower>().map = target_map;
+
+                    Warehouse warehousesc = towerObj.GetComponent<Warehouse>();
+
+                    if (warehousesc)
+                    {
+                        warehousesc.roadsManager = roadsManager;
+                    }
+
                     if (towerType == TowerParameters.Type.road)
                     {
                         roadsManager.InstantRoad(clickCellPosition);

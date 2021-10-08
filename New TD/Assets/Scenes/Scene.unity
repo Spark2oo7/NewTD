@@ -7424,7 +7424,7 @@ PrefabInstance:
     - target: {fileID: 574204414131855300, guid: 3e7bb610fc9180c43a32669366a8084c,
         type: 3}
       propertyPath: chancesFromTime.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 574204414131855300, guid: 3e7bb610fc9180c43a32669366a8084c,
         type: 3}
@@ -7859,7 +7859,7 @@ PrefabInstance:
     - target: {fileID: 574204414564130025, guid: 3e7bb610fc9180c43a32669366a8084c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20.000046
+      value: -20.000061
       objectReference: {fileID: 0}
     - target: {fileID: 574204414672390871, guid: 3e7bb610fc9180c43a32669366a8084c,
         type: 3}
