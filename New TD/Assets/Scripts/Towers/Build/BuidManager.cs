@@ -18,13 +18,24 @@ public class BuidManager : MonoBehaviour
 
     [Header("Tile maps")]
     public Tilemap map_f;
+    public Tilemap map_o;
     public Tilemap map_t;
     public Tilemap map_p;
     public Tilemap map_r;
+    
 
     [Header("Camera")]
     public Camera mainCamera;
     public Collider bildings;
+
+    
+    // [Header("Grids")]
+    public static GameObject[,] towersGrid;
+
+    void Start()
+    {
+        towersGrid = new GameObject[PlayerStats.gridSize*2 + 1, PlayerStats.gridSize*2 + 1];
+    }
 
     public void SetBuldingTower(int price, TileBase tile, GameObject obj, TowerParameters.Type type)
     {
@@ -122,6 +133,13 @@ public class BuidManager : MonoBehaviour
         }
     }
 
+    public ref GameObject CellPosToGrid(Vector3Int CellPosition)
+    {
+        int x = CellPosition.x + PlayerStats.gridSize;
+        int y = CellPosition.y + PlayerStats.gridSize;
+        return ref towersGrid[x, y];
+    }
+
     void Build()
     {
         if (PlayerStats.pause)
@@ -171,6 +189,17 @@ public class BuidManager : MonoBehaviour
                     {
                         roadsManager.InstantRoad(clickCellPosition);
                     }
+                    else
+                    {
+                        roadsManager.InstantTower(clickCellPosition, towerObj);
+                        CellPosToGrid(clickCellPosition) = towerObj;
+                    }
+
+                    Drill drillsc = towerObj.GetComponent<Drill>();
+                    if (drillsc)
+                    {
+                        drillsc.map_o = map_o;
+                    }
                 }
                 if (!PlayerStats.fixationSelection)
                     panelManager.Build();
@@ -178,11 +207,10 @@ public class BuidManager : MonoBehaviour
         }
         else //снос
         {
-            if (target_map.GetTile(clickCellPosition))
+            GameObject towerObj = CellPosToGrid(clickCellPosition);
+            if (towerObj)
             {
-                target_map.SetTile(clickCellPosition, null);
-                if (!PlayerStats.fixationSelection)
-                    panelManager.Build();
+                towerObj.GetComponent<Tower>().DeleteTower();
             }
         }
         map_p.ClearAllTiles();

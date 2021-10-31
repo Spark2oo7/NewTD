@@ -5,6 +5,8 @@ public class Wall : MonoBehaviour
     public Tower tower;
     public float hpRegeneration;
     public float maxHp;
+    public Warehouse warehouse;
+    public Resource resource;
 
     void Start()
     {
@@ -15,16 +17,11 @@ public class Wall : MonoBehaviour
     {
         if (tower.hp < maxHp)
         {
-            if (maxHp-tower.hp < hpRegeneration)
+            if (maxHp-tower.hp >= hpRegeneration)
             {
-                tower.hp = maxHp;
-            }
-            else
-            {
-                if (PlayerStats.money >= 1)
+                if (warehouse.Receive(resource, 1))
                 {
                     tower.hp += hpRegeneration;
-                    PlayerStats.money -= 1;
                 }
             }
         }

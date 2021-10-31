@@ -129,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   enemyTag: Enemy
-  speed: 3
+  speed: 10
   range: 10
   damage: 25
 --- !u!58 &3144126566196263446

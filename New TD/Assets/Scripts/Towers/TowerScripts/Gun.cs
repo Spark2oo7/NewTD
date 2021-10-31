@@ -4,6 +4,8 @@ public class Gun : MonoBehaviour
 {
     public float fireRate;
     public GameObject bullet;
+    public Warehouse warehouse;
+    public Resource resource;
 
     public string enemyTag;
 
@@ -14,14 +16,17 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        if (enemies.Length <= 0)
-            return;
+        if (warehouse.TryReceive(resource, 1))
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+            if (enemies.Length <= 0)
+                return;
 
-        if (PlayerStats.money <= 0)
-            return;
+            if (PlayerStats.money <= 0)
+                return;
 
-        PlayerStats.money -= 1;
-        Instantiate(bullet, transform);
+            warehouse.Receive(resource, 1);
+            Instantiate(bullet, transform);
+        }
     }
 }

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7304480103895722034}
   - component: {fileID: 7863267567217700220}
   - component: {fileID: -6177698996285785883}
+  - component: {fileID: -6410767579005352520}
+  - component: {fileID: 4451532277902304052}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Tower
@@ -72,7 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
-  map_t: {fileID: 0}
+  map: {fileID: 0}
   CellPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &-6177698996285785883
 MonoBehaviour:
@@ -87,3 +89,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moneyPerSec: 3
+--- !u!114 &-6410767579005352520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6709018531857839955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38515c93b4450a47afb619a500369dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadsManager: {fileID: 0}
+  tower: {fileID: 7863267567217700220}
+  orders: []
+  exports:
+  - resource: {fileID: 707418823495901569, guid: 59f8be509e488b84ba095503d31f302c,
+      type: 3}
+    count: 1
+  startStoreds: []
+--- !u!114 &4451532277902304052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6709018531857839955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ecc007a25a4904984759947a752df6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warehouse: {fileID: -6410767579005352520}
+  output:
+    resource: {fileID: 707418823495901569, guid: 59f8be509e488b84ba095503d31f302c,
+      type: 3}
+    count: 1
+  repeatRate: 2

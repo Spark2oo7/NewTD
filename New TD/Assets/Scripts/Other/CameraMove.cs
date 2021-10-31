@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using UnityEngine; //это не мой скрипт, а его взял из каккой-то статьи в интернете. А потом забыл написать
 
 public class CameraMove : MonoBehaviour
 {
@@ -21,9 +21,41 @@ public class CameraMove : MonoBehaviour
     private Vector3 initialMidPointScreen;
     private float initialOrthographicSize;
 
+#if UNITY_EDITOR //это мой код
+    private Vector3 lastMousePos;
+#endif
+
     void Update()
     {
-        if (Input.touchCount == 1 && (!bm.towerEnabled))
+        
+#if UNITY_EDITOR //это мой код
+    if (Input.GetMouseButton(2)) //move
+    {
+        Vector3 mousePos = Input.mousePosition;
+        if (lastMousePos != Vector3.zero)
+        {
+            transform.position += cam.ScreenToWorldPoint(lastMousePos) - cam.ScreenToWorldPoint(mousePos);
+        }
+        lastMousePos = mousePos;
+    }
+    else
+    {
+        lastMousePos = Vector3.zero;
+    }
+
+
+    float scroll = 1 - Input.GetAxis("Mouse ScrollWheel"); //zoom
+    if (scroll != 1)
+    {
+        Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 camPos = transform.position;
+        transform.position = mousePos + (camPos - mousePos)*scroll;
+        
+        cam.orthographicSize *= scroll;
+    }
+#endif
+
+        if (Input.touchCount == 1 && (!bm.towerEnabled)) //это не мой код
         {
             zoom = false;
             Touch touch0 = Input.GetTouch(0);

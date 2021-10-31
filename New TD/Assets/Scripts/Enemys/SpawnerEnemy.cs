@@ -3,15 +3,13 @@
 public class SpawnerEnemy : MonoBehaviour
 {
     public GameObject[] enemyes = new GameObject[2];
-    public AnimationCurve chanceFromTime;
     public AnimationCurve[] chancesFromTime = new AnimationCurve[2];
-    public float sizeMap;
 
     private Vector3 randomPosition()
     {
         Vector3 pos = Vector3.zero;
         float value = Random.value;
-        sizeMap = PlayerStats.gridSize;
+        float sizeMap = PlayerStats.gridSize;
         if (value < 0.25)
         {
             pos = new Vector3(Random.Range(-sizeMap, sizeMap), sizeMap, 0f);

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4336009193741475489}
   - component: {fileID: 7207254048081065286}
   - component: {fileID: 7801367714041081864}
-  - component: {fileID: 4663082160956349186}
   - component: {fileID: 4827491772059100848}
+  - component: {fileID: 4663082160956349186}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Tower
@@ -75,21 +75,6 @@ MonoBehaviour:
   hp: 50
   map: {fileID: 0}
   CellPosition: {x: 0, y: 0, z: 0}
---- !u!114 &4663082160956349186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6647539986787002919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f7b4384cffb86842aa635422f5f7a99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireRate: 1
-  bullet: {fileID: 4323526499452567872, guid: a66954ddd70f3f64aa4c89ae4295a7c1, type: 3}
-  enemyTag: Enemy
 --- !u!114 &4827491772059100848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,4 +89,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadsManager: {fileID: 0}
   tower: {fileID: 7801367714041081864}
-  orders: []
+  orders:
+  - resource: {fileID: 707418823495901569, guid: 310eca71c84199844aef67fde3f8d0c6,
+      type: 3}
+    count: 3
+  exports: []
+  startStoreds: []
+--- !u!114 &4663082160956349186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6647539986787002919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f7b4384cffb86842aa635422f5f7a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRate: 1
+  bullet: {fileID: 4323526499452567872, guid: a66954ddd70f3f64aa4c89ae4295a7c1, type: 3}
+  warehouse: {fileID: 4827491772059100848}
+  resource: {fileID: 707418823495901569, guid: 310eca71c84199844aef67fde3f8d0c6, type: 3}
+  enemyTag: Enemy

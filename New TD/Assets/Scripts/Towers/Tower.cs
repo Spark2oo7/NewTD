@@ -27,9 +27,13 @@ public class Tower : MonoBehaviour
         hp -= damage;
         if (hp <= 0)
         {
-            map.SetTile(CellPosition, null);
-            Destroy(gameObject);
-            return;
+            this.DeleteTower();
         }
+    }
+
+    public void DeleteTower()
+    {
+        map.SetTile(CellPosition, null);
+        Destroy(gameObject);
     }
 }
