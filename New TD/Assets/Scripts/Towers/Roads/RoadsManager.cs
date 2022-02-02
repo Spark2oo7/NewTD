@@ -3,57 +3,101 @@ using System.Collections.Generic;
 
 public class RoadsManager : MonoBehaviour // отвечает за дороги
 {
-    public bool[,] roadGrid;
+    public bool[,] roadsGrid;
 
     public GameObject moveResource;
-
+    public Transform ListMoveResources;
+    public TowerParameters roadParameters;
+    public BuidManager buidManager;
     public Dictionary<Resource, Warehouse[,]> resourceGrid = new Dictionary<Resource, Warehouse[,]>();
 
     void Start()
     {
-        roadGrid = new bool[PlayerStats.gridSize*2, PlayerStats.gridSize*2];
+        if (roadsGrid == null)
+        {
+            roadsGrid = new bool[PlayerStats.gridSize*2, PlayerStats.gridSize*2];
+        }
     }
-
 
     public void InstantRoad(Vector3Int position)
     {
-        roadGrid[position.x + PlayerStats.gridSize, position.y + PlayerStats.gridSize] = true;
+        roadsGrid[position.x + PlayerStats.gridSize, position.y + PlayerStats.gridSize] = true;
+    }
+
+    public void LoadRoads(bool[,] grid)
+    {
+        roadsGrid = grid;
+        buidManager.LoadRoads(grid, roadParameters);
     }
     
-    public void InstantTower(Vector3Int position, GameObject towerObject)
+    public void InstantTower(Vector3Int position, Warehouse warehouse)
     {
-        Warehouse warehouse = towerObject.GetComponent<Warehouse>();
-        if (warehouse)
+        foreach (Export export in warehouse.exports)
         {
-            
-            foreach (Export export in warehouse.exports)
+            if(!resourceGrid.ContainsKey(export.resource))
             {
-                if(!resourceGrid.ContainsKey(export.resource))
-                {
-                    resourceGrid.Add(export.resource, new Warehouse[PlayerStats.gridSize*2 + 1, PlayerStats.gridSize*2 + 1]);
-                }
-                Warehouse[,] grid;
-                grid = resourceGrid[export.resource];
-                int x = position.x + PlayerStats.gridSize;
-                int y = position.y + PlayerStats.gridSize;
-                grid[x, y] = towerObject.GetComponent<Warehouse>();
+                resourceGrid.Add(export.resource, new Warehouse[PlayerStats.gridSize*2 + 1, PlayerStats.gridSize*2 + 1]);
             }
+            Warehouse[,] grid;
+            grid = resourceGrid[export.resource];
+            int x = position.x + PlayerStats.gridSize;
+            int y = position.y + PlayerStats.gridSize;
+            grid[x, y] = warehouse;
         }
     }
 
     public bool Order(Vector3Int position, Resource resource, Warehouse warehouse) //заказ
     {
         Vector2Int start = new Vector2Int(position.x + PlayerStats.gridSize, position.y + PlayerStats.gridSize);
-        // Vector2 end = new Vector2(position.x + PlayerStats.gridSize - 0.5f, position.y + PlayerStats.gridSize - 0.5f);
 
-        var path = BFS(start, resource);
+        Point path = BFS(start, resource);
         if (path != null)
         {
-            GameObject obj = Instantiate(moveResource);
+            GameObject obj = Instantiate(moveResource, ListMoveResources);
             obj.GetComponent<MoveResource>().SetAll(PointToPath(path), resource, warehouse);
             return true;
         }
         return false;
+    }
+
+    public void LoadMoveResources(SavedMoveResource[] savedMoveResources)
+    {
+        foreach (SavedMoveResource savedMoveResource in savedMoveResources)
+        {
+            if (savedMoveResource.targetWarehousePosition != savedMoveResource.currentDot)
+            {
+                LoadMoveResource(savedMoveResource);
+            }
+        }
+    }
+    public void LoadMoveResource(SavedMoveResource savedMoveResource)
+    {
+        Vector2Int correction = new Vector2Int(PlayerStats.gridSize, PlayerStats.gridSize);
+        Vector2Int start = savedMoveResource.currentDot + correction;
+        Vector2 end = savedMoveResource.targetWarehousePosition + correction - new Vector2(0.5f, 0.5f);
+
+        Point path = Astar(start, end);
+        if (path != null)
+        {
+            Vector3Int position = new Vector3Int(savedMoveResource.targetWarehousePosition.x, savedMoveResource.targetWarehousePosition.y, 0);
+            Warehouse warehousesc = buidManager.GetTower(position).GetComponent<Warehouse>();
+
+            if (warehousesc)
+            {
+                GameObject obj = Instantiate(moveResource, ListMoveResources);
+                List<Vector3> newPath = PointToPath(path);
+                newPath.Reverse();
+                obj.GetComponent<MoveResource>().SetAll(newPath, savedMoveResource.resource, warehousesc);
+            }
+            else
+            {
+                Debug.Log("error, no werhouse");
+            }
+        }
+        else
+        {
+            Debug.Log("error, no path find");
+        }
     }
 
     public Point BFS(Vector2Int start, Resource resource) //поиск в ширину
@@ -73,7 +117,7 @@ public class RoadsManager : MonoBehaviour // отвечает за дороги
             int x = start.x - square[v].x;
             int y = start.y - square[v].y;
             if (0 <= x && x < PlayerStats.gridSize*2 && 0 <= y && y < PlayerStats.gridSize*2)
-                if (roadGrid[x, y])
+                if (roadsGrid[x, y])
                 {
                     startPoint.SetAllBFS(new Vector2Int(x, y), 0, null);
                     Pointsgrid[x, y] = startPoint;
@@ -92,7 +136,7 @@ public class RoadsManager : MonoBehaviour // отвечает за дороги
                 Vector2Int newPos = minPoint.position + around[v];
                 if (0 <= newPos.x && newPos.x < PlayerStats.gridSize*2 && 0 <= newPos.y && newPos.y < PlayerStats.gridSize*2)
                 {
-                    if (roadGrid[newPos.x, newPos.y] && (Pointsgrid[newPos.x, newPos.y] == null))
+                    if (roadsGrid[newPos.x, newPos.y] && (Pointsgrid[newPos.x, newPos.y] == null))
                     {
                         Point newPoint = new Point();
                         newPoint.SetAllBFS(newPos, minPoint.distanceToStart + 1, minPoint);
@@ -122,6 +166,56 @@ public class RoadsManager : MonoBehaviour // отвечает за дороги
         return null;
     }
 
+    public Point Astar(Vector2Int start, Vector2 end)
+    {
+        List<Point> extremePoints = new List<Point>();
+        Point[,] Pointsgrid = new Point[PlayerStats.gridSize*2, PlayerStats.gridSize*2];
+        Vector2Int[] around = new Vector2Int[4]{new Vector2Int(1, 0), new Vector2Int(0, 1), new Vector2Int(-1, 0), new Vector2Int(0, -1)};
+
+        Point startPoint = new Point();
+        startPoint.SetAllAstar(start, 0, null, end);
+
+        extremePoints.Add(startPoint);
+        Pointsgrid[start.x, start.y] = startPoint;
+
+        int i = 0;
+
+        while (extremePoints.Count > 0 && i < 500)
+        {
+            Point minPoint = GetMinPoint(extremePoints);
+
+            for (int v = 0; v < around.Length; v++)
+            {
+                Vector2Int newPos = minPoint.position + around[v];
+                if (0 <= newPos.x && newPos.x < PlayerStats.gridSize*2 && 0 <= newPos.y && newPos.y < PlayerStats.gridSize*2)
+                {
+                    if (roadsGrid[newPos.x, newPos.y] && (Pointsgrid[newPos.x, newPos.y] == null))
+                    {
+                        Point newPoint = new Point();
+                        newPoint.SetAllAstar(newPos, minPoint.distanceToStart + 1, minPoint, end);
+                        extremePoints.Add(newPoint);
+                        Pointsgrid[newPos.x, newPos.y] = newPoint;
+
+                        MyDraw(newPoint, Color.green);
+
+                        if (newPoint.distanceToEnd < 1)
+                        {
+                            MyDrawPath(newPoint);
+                            return newPoint;
+                        }
+                    }
+                }
+            }
+            minPoint.freez = true;
+            extremePoints.Remove(minPoint);
+
+            i++;
+        }
+        if (i == 500)
+            Debug.Log("error");
+
+        return null;
+    }
 
     public Point GetMinPoint(List<Point> extremePoints)
     {
@@ -134,7 +228,6 @@ public class RoadsManager : MonoBehaviour // отвечает за дороги
         return extremePoints[min];
     }
 
-
     public void MyDrawPath(Point p)
     {
         while (p.beforPoint != null)
@@ -143,7 +236,6 @@ public class RoadsManager : MonoBehaviour // отвечает за дороги
             p = p.beforPoint;
         }
     }
-
 
     public void MyDraw(Point point, Color col)
     {
@@ -194,7 +286,7 @@ public class Point
 
     public float price;
 
-    public void SetAllStar(Vector2Int pos, int dis, Point bP, Vector2 end)
+    public void SetAllAstar(Vector2Int pos, int dis, Point bP, Vector2 end)
     {
         position = pos;
         distanceToStart = dis;

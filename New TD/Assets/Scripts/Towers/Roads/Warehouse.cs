@@ -10,27 +10,43 @@ public class Warehouse : MonoBehaviour
     public Export[] exports;
     public Stored[] startStoreds;
 
-    public Dictionary<int, Stored> storeds = new Dictionary<int, Stored>();
+    public bool waitForRecording = false;
+
+    public Dictionary<Resource, Stored> storeds = new Dictionary<Resource, Stored>();
     
     void Start()
     {
-        InvokeRepeating("Requirement", 1f, 1f);
         foreach (Stored stored in startStoreds)
         {
-            storeds.Add(stored.resource.id, stored);
+            storeds.Add(stored.resource, stored);
+        }
+
+        if (!waitForRecording)
+        {
+            InvokeRepeating("Requirement", 1f, 1f);
+            roadsManager.InstantTower(tower.cellPosition, this);
         }
     }
 
-#if UNITY_EDITOR
-    void Update()
+    public void Inscribe()
     {
-        startStoreds = new Stored[10];
-        foreach (int ind in storeds.Keys)
+        if (waitForRecording)
         {
-            startStoreds[ind] = storeds[ind];
+            InvokeRepeating("Requirement", 1f, 1f);
+            roadsManager.InstantTower(tower.cellPosition, this);
         }
     }
-#endif
+
+// #if UNITY_EDITOR
+//     void Update()
+//     {
+//         startStoreds = new Stored[10];
+//         foreach (Resource ind in storeds.Keys)
+//         {
+//             startStoreds[ind.id].count = storeds[ind].count;
+//         }
+//     }
+// #endif
 
     public void Requirement()
     {
@@ -38,16 +54,16 @@ public class Warehouse : MonoBehaviour
         {
             Resource resource = order.resource;
             bool result = false;
-            if (storeds.ContainsKey(resource.id))
+            if (storeds.ContainsKey(resource))
             {
-                if (storeds[resource.id].will < order.count)
+                if (storeds[resource].will < order.count)
                 {
-                    result = roadsManager.Order(tower.CellPosition, resource, this);
+                    result = roadsManager.Order(tower.cellPosition, resource, this);
                 }
             }
             else
             {
-                result = roadsManager.Order(tower.CellPosition, resource, this);
+                result = roadsManager.Order(tower.cellPosition, resource, this);
             }
             if (result)
             {
@@ -58,19 +74,19 @@ public class Warehouse : MonoBehaviour
 
     public bool TryGive(Resource resource, int count)
     {
-        if(!storeds.ContainsKey(resource.id))
+        if(!storeds.ContainsKey(resource))
         {
-            storeds.Add(resource.id, new Stored(resource));
+            storeds.Add(resource, new Stored(resource));
         }
 
-        return storeds[resource.id].TryGive(count);
+        return storeds[resource].TryGive(count);
     }
 
     public bool Give(Resource resource, int count, bool willEnabled)
     {
         if(TryGive(resource, count))
         {  
-            return storeds[resource.id].Give(count, willEnabled);
+            return storeds[resource].Give(count, willEnabled);
         }
 
         return false;
@@ -78,9 +94,9 @@ public class Warehouse : MonoBehaviour
     
     public bool TryReceive(Resource resource, int count)
     {
-        if(storeds.ContainsKey(resource.id))
+        if(storeds.ContainsKey(resource))
         {
-            return storeds[resource.id].TryReceive(count);
+            return storeds[resource].TryReceive(count);
         }
 
         return false;
@@ -90,7 +106,7 @@ public class Warehouse : MonoBehaviour
     {
         if(TryReceive(resource, count))
         {
-            return storeds[resource.id].Receive(count);
+            return storeds[resource].Receive(count);
         }
 
         return false;
@@ -98,12 +114,12 @@ public class Warehouse : MonoBehaviour
 
     public void WillGive(Resource resource, int willCount)
     {
-        if(!storeds.ContainsKey(resource.id))
+        if(!storeds.ContainsKey(resource))
         {
-            storeds.Add(resource.id, new Stored(resource));
+            storeds.Add(resource, new Stored(resource));
         }
 
-        storeds[resource.id].WillGive(willCount);
+        storeds[resource].WillGive(willCount);
     }
 }
 
@@ -136,6 +152,13 @@ public class Stored
         resource = res;
         maxCount = 99;
         count = 0;
+    }
+    
+    public Stored(Resource res, int newCount) 
+    {
+        resource = res;
+        maxCount = 99;
+        count = newCount;
     }
 
     public bool TryGive(int plus)

@@ -13,7 +13,10 @@ public class Drill : Factory
         {
             if (map_o.GetTile(CellPosition) is OreTale)
             {
-                output[0].resource = ((OreTale)map_o.GetTile(CellPosition)).resource;
+                Resource resource = ((OreTale)map_o.GetTile(CellPosition)).resource;
+                output[0].resource = resource;
+                warehouse.exports[0].resource = resource;
+                warehouse.Inscribe();
                 InvokeRepeating("Сonversion", 1f, 1f);
             }
         }

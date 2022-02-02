@@ -20,8 +20,7 @@ public class BuildingsPanelManager : MonoBehaviour // отвечает за па
         for (int i = 0; i < towersParameters.Length; i++)
         {
             BuildingPanel tower = Instantiate(towerPanel, transform).GetComponent<BuildingPanel>();
-            TowerParameters parametrs = towersParameters[i];
-            tower.SetParameters(parametrs.price, parametrs.icon, i, parametrs.tile, parametrs.towerObject, parametrs.type, this); // задаёт параметры ↓
+            tower.SetParameters(towersParameters[i], i, this); // задаёт параметры ↓
             selects[i] = tower.GetSelect();
         }
     }
@@ -34,7 +33,7 @@ public class BuildingsPanelManager : MonoBehaviour // отвечает за па
         }
         
         towersParameters = newParameters;
-        UpdateBuildings();
+        // UpdateBuildings();
     }
 
     public void Build() // передаёт параметры в buildmanager ↑
@@ -44,7 +43,7 @@ public class BuildingsPanelManager : MonoBehaviour // отвечает за па
         select = -1;
     }
     
-    public void OnClick(int index, int price, TileBase tile, GameObject obj, TowerParameters.Type type) // ↑ клик на какую-то башню
+    public void OnClick(TowerParameters parameters, int index) // ↑ клик на какую-то башню
     {
         if (select == index)
         {
@@ -57,7 +56,7 @@ public class BuildingsPanelManager : MonoBehaviour // отвечает за па
             if (select != -1)
                 selects[select].SetActive(false);
             select = index;
-            buidManager.SetBuldingTower(price, tile, obj, type);
+            buidManager.SetBuldingTower(parameters);
             buidManager.towerEnable();
             selects[select].SetActive(true);
         }

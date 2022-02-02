@@ -5,20 +5,24 @@ public class Tower : MonoBehaviour
 {
     public float hp;
     public Tilemap map;
-    public Vector3Int CellPosition;
+    public Vector3Int cellPosition;
+    public TowerParameters parameters;
 
-    void Start()
+    void Start() 
     {
-        CellPosition = map.WorldToCell(transform.position);
-        InvokeRepeating("Delete", 0f, 1f);
+        if (map != null)
+        {
+            cellPosition = map.WorldToCell(transform.position);
+        }
     }
 
-    void Delete()
+    public void SetAll(Tilemap target_map, TowerParameters towerParameters)
     {
-        if (!map.GetTile(CellPosition))
+        parameters = towerParameters;
+        map = target_map;
+        if (transform.position != Vector3.zero)
         {
-            Destroy(gameObject);
-            return;
+            cellPosition = map.WorldToCell(transform.position);
         }
     }
 
@@ -33,7 +37,7 @@ public class Tower : MonoBehaviour
 
     public void DeleteTower()
     {
-        map.SetTile(CellPosition, null);
+        map.SetTile(cellPosition, null);
         Destroy(gameObject);
     }
 }

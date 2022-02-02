@@ -4,8 +4,7 @@ using UnityEngine.UI;
 public class WaveText : MonoBehaviour
 {
     public Text waveText;
-    public float[] startWaves = new float[4];
-    public float[] endWaves = new float[4];
+    public Wave[] waves = new Wave[0];
     public int nextWaveID = 0;
 
     void Start()
@@ -15,18 +14,18 @@ public class WaveText : MonoBehaviour
 
     void Update()
     {
-        if (startWaves.Length != nextWaveID)
+        if (waves.Length != nextWaveID)
         {
             waveText.text = "";
-            if (PlayerStats.time > startWaves[nextWaveID] - 99)
+            if (PlayerStats.time > waves[nextWaveID].start - 99)
             {
-                if (PlayerStats.time < startWaves[nextWaveID])
+                if (PlayerStats.time < waves[nextWaveID].start)
                 {
-                    waveText.text = (startWaves[nextWaveID] - PlayerStats.time).ToString("0") + "с до начала валны";
+                    waveText.text = (waves[nextWaveID].start - PlayerStats.time).ToString("0") + "с до начала валны";
                 }
-                else if(PlayerStats.time < endWaves[nextWaveID])
+                else if(PlayerStats.time < waves[nextWaveID].end)
                 {
-                    waveText.text = (endWaves[nextWaveID] - PlayerStats.time).ToString("0") + "с до конца волны";
+                    waveText.text = (waves[nextWaveID].end - PlayerStats.time).ToString("0") + "с до конца волны";
                 }
                 else
                 {
@@ -36,3 +35,12 @@ public class WaveText : MonoBehaviour
         }
     }
 }
+
+
+[System.Serializable]
+public class Wave
+{
+    public float start;
+    public float end;
+}
+

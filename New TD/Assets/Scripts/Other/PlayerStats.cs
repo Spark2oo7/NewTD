@@ -4,19 +4,20 @@ public class PlayerStats : MonoBehaviour
 {
     public static int money;
     public int startMoney;
-    static public float time = 0f;
+    public float inspectortime;
+    static public float time;
     static public bool fixationSelection = false;
     static public bool pause = false;
     static public bool particlesEnabled = true;
     static public int gridSize;
     public int inspectorGridSize;
-    public static float timeToEnd;
+    static public float timeToEnd;
     public float inspectortimeToEnd;
 
     void Awake()
     {
-        // PlayerStats.Pause();
-        PlayerStats.time = 0;
+        PlayerStats.Play();
+        PlayerStats.time = inspectortime;
         timeToEnd = inspectortimeToEnd;
         gridSize = inspectorGridSize;
         money = startMoney;

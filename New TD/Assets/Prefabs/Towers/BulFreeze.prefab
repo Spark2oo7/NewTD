@@ -130,7 +130,7 @@ MonoBehaviour:
   target: {fileID: 0}
   enemyTag: Enemy
   speed: 5
-  range: 10
+  range: 5
   damage: 10
   freezTime: 3
 --- !u!58 &3144126566196263446

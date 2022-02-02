@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6709018531857839955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4429131670566405077}
+  - component: {fileID: 6484248072792407895}
+  m_Layer: 0
+  m_Name: CopperSynthesizersParametr
+  m_TagString: Tower
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4429131670566405077
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6709018531857839955}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6484248072792407895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6709018531857839955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199cf4f7835275c44a600d28d14e42bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: {fileID: 11400000, guid: 33b433283700ad243a26355492c918e3, type: 2}
+  price:
+  - resource: {fileID: 707418823495901569, guid: 59f8be509e488b84ba095503d31f302c,
+      type: 3}
+    count: 30
+  - resource: {fileID: 707418823495901569, guid: ad1a9cf9c5d3b2a459fa2d68c07aed9e,
+      type: 3}
+    count: 20
+  icon: {fileID: 9088418857693958395, guid: 8d1344e9b5729b14b9339e80a7f00363, type: 3}
+  index: 13
+  towerObject: {fileID: 6709018531857839955, guid: 0bf93aa5e248d844d9a2d47d5d4039b1,
+    type: 3}
+  type: 0

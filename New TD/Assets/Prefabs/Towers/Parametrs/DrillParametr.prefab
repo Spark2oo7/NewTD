@@ -44,7 +44,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 11400000, guid: e39ecaf11adbe4f46bbc3e9277a53e72, type: 2}
-  price: 200
+  price:
+  - resource: {fileID: 707418823495901569, guid: ad1a9cf9c5d3b2a459fa2d68c07aed9e,
+      type: 3}
+    count: 5
+  - resource: {fileID: 707418823495901569, guid: 59f8be509e488b84ba095503d31f302c,
+      type: 3}
+    count: 2
   icon: {fileID: 21300000, guid: 76834145231845846a11b8ed63b8f260, type: 3}
   index: 10
   towerObject: {fileID: 6709018531857839955, guid: a5f31ec07e08b074f81fbd72a2f8a28d,

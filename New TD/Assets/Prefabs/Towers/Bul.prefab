@@ -130,7 +130,7 @@ MonoBehaviour:
   target: {fileID: 0}
   enemyTag: Enemy
   speed: 10
-  range: 10
+  range: 5
   damage: 25
 --- !u!58 &3144126566196263446
 CircleCollider2D:

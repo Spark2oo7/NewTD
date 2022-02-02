@@ -40,11 +40,21 @@ public class Enemy : MonoBehaviour
 
         if (target)
         {
-            target.Attack(attack * Time.deltaTime);
+            if (freez)
+            {
+                target.Attack(attack * Time.deltaTime);
+            }
+            else
+            {
+                target.Attack(attack * Time.deltaTime / 2);
+            }
             return;
         }
 
-        transform.Translate(-transform.position.normalized * nowSpeed * Time.deltaTime);
+        if (!target)
+        {
+            transform.Translate(-transform.position.normalized * nowSpeed * Time.deltaTime);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)

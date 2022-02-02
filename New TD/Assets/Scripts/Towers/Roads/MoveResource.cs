@@ -7,7 +7,7 @@ public class MoveResource : MonoBehaviour
     public Warehouse targetWarehouse;
     public SpriteRenderer spriteRenderer;
     private List<Vector3> dots;
-    public float stepTime = 1;
+    public float stepTime = 1f;
     private float time = 0f;
     private int current = 0;
 
@@ -34,5 +34,10 @@ public class MoveResource : MonoBehaviour
         targetWarehouse = tw;
 
         spriteRenderer.color = resource.color;
+    }
+
+    public Vector3 GetCurrentDot()
+    {
+        return dots[current];
     }
 }

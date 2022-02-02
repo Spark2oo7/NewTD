@@ -4,26 +4,19 @@ using UnityEngine.Tilemaps;
 
 public class BuildingPanel : MonoBehaviour
 {
-    public Text priceText;
-    public int price;
-    public Image iconImage;
-    public int index = 0;
-    public TileBase tile;
-    public GameObject towerObject;
-    public TowerParameters.Type type;
+    private TowerParameters towerParameters;
     public GameObject select;
-    public BuildingsPanelManager panelManager;
+    public Image iconImage;
+    private BuildingsPanelManager panelManager;
 
-    public void SetParameters(int priceTower, Sprite iconTower, int indexTower, TileBase tileTower, GameObject obj, TowerParameters.Type typeTower, BuildingsPanelManager BMP)
+    private int index;
+
+    public void SetParameters(TowerParameters parametrs, int id, BuildingsPanelManager BMP)
     {
-        price = priceTower;
-        priceText.text = price.ToString();
-        iconImage.sprite = iconTower;
-        index = indexTower;
+        towerParameters = parametrs;
         panelManager = BMP;
-        tile = tileTower;
-        towerObject = obj;
-        type = typeTower;
+        iconImage.sprite = parametrs.icon;
+        index = id;
     }
 
     public GameObject GetSelect()
@@ -33,6 +26,6 @@ public class BuildingPanel : MonoBehaviour
 
     public void Click()
     {
-        panelManager.OnClick(index, price, tile, towerObject, type);
+        panelManager.OnClick(towerParameters, index);
     }
 }	

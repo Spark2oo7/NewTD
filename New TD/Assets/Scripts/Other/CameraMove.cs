@@ -55,7 +55,7 @@ public class CameraMove : MonoBehaviour
     }
 #endif
 
-        if (Input.touchCount == 1 && (!bm.towerEnabled)) //это не мой код
+        if (Input.touchCount == 1 && (!bm.GetTowerEnabled())) //это не мой код
         {
             zoom = false;
             Touch touch0 = Input.GetTouch(0);

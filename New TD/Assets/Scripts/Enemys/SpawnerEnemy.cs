@@ -4,6 +4,7 @@ public class SpawnerEnemy : MonoBehaviour
 {
     public GameObject[] enemyes = new GameObject[2];
     public AnimationCurve[] chancesFromTime = new AnimationCurve[2];
+    public Transform listEnemys;
 
     private Vector3 randomPosition()
     {
@@ -37,8 +38,17 @@ public class SpawnerEnemy : MonoBehaviour
             float chance = chancesFromTime[i].Evaluate(PlayerStats.time);
             if (Random.value < chance * Time.deltaTime)
             {
-                Instantiate(enemyes[i], randomPosition(), transform.rotation);
+                Instantiate(enemyes[i], randomPosition(), transform.rotation, listEnemys);
             }
+        }
+    }
+
+    public void LoadEnemys(SavedEnemy[] enemys)
+    {
+        foreach (SavedEnemy enemy in enemys)
+        {
+            Vector3 position = new Vector3(enemy.position.x, enemy.position.y, 0f);
+            Instantiate(enemyes[0], position, transform.rotation, listEnemys);
         }
     }
 }

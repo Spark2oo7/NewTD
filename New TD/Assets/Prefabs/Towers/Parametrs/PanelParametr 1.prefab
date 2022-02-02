@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4429131670566405077}
   - component: {fileID: 6484248072792407895}
   m_Layer: 0
-  m_Name: PanelParametr
+  m_Name: PanelParametr 1
   m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 11400000, guid: ace597d0a2037a04db29a0b2798822dd, type: 2}
-  price: 200
+  price:
+  - resource: {fileID: 707418823495901569, guid: ad1a9cf9c5d3b2a459fa2d68c07aed9e,
+      type: 3}
+    count: 20
+  - resource: {fileID: 707418823495901569, guid: 4714dbdb3dfed7a4ea51bb700b85c954,
+      type: 3}
+    count: 15
+  - resource: {fileID: 707418823495901569, guid: 59f8be509e488b84ba095503d31f302c,
+      type: 3}
+    count: 30
   icon: {fileID: -6491383164271470453, guid: ca03b4097844ac248965ffa5e621786c, type: 3}
   index: 2
   towerObject: {fileID: 6709018531857839955, guid: e41c01ba904416c4a8c0f443aa2d1451,

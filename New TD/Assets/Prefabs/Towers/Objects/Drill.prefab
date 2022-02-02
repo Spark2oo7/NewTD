@@ -75,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 10
   map: {fileID: 0}
-  CellPosition: {x: 0, y: 0, z: 0}
+  cellPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &-6177698996285785883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,13 +111,8 @@ MonoBehaviour:
   - resource: {fileID: 707418823495901569, guid: ad1a9cf9c5d3b2a459fa2d68c07aed9e,
       type: 3}
     count: 1
-  - resource: {fileID: 707418823495901569, guid: 4714dbdb3dfed7a4ea51bb700b85c954,
-      type: 3}
-    count: 1
-  - resource: {fileID: 707418823495901569, guid: 5574d12bf3857564f936f0174f4faabb,
-      type: 3}
-    count: 1
   startStoreds: []
+  waitForRecording: 1
 --- !u!114 &8611198592764849919
 MonoBehaviour:
   m_ObjectHideFlags: 0
