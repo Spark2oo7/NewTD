@@ -3,6 +3,8 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - BuidManager
     - BuildingPanel
+    - BuildingType
+    - BuildingTypesManager
     - BuildingsPanelManager
     - Bullet
     - CameraMove
@@ -16,20 +18,23 @@ ScriptsOnlyBuild:
     - House
     - LevelManager
     - LevelParametrs
+    - LookManager
     - MoveResource
     - NextLevel
     - OreTale
-    - Panel
     - PlanObject
     - PlanTile
     - PlayerStats
     - Resource
+    - ResourcePanel
     - Restart
     - RoadTile
     - RoadsManager
+    - SavePanel
     - SelectLevels
     - Settings
     - SpawnerEnemy
+    - TimeScale
     - TimeText
     - Tower
     - TowerParameters
@@ -69,6 +74,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.GridLayoutGroup
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Scrollbar
     - UnityEngine.UI.Text
     - UnityEngine.UI.Toggle
   sceneClasses:
@@ -112,85 +118,97 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1764}
     - Class: 114
-      Script: {instanceID: 1990}
+      Script: {instanceID: 1776}
     - Class: 114
-      Script: {instanceID: 2006}
+      Script: {instanceID: 1788}
     - Class: 114
-      Script: {instanceID: 2042}
+      Script: {instanceID: 1816}
     - Class: 114
-      Script: {instanceID: 2182}
+      Script: {instanceID: 1996}
     - Class: 114
-      Script: {instanceID: 2306}
+      Script: {instanceID: 2012}
     - Class: 114
-      Script: {instanceID: 2340}
+      Script: {instanceID: 2048}
     - Class: 114
-      Script: {instanceID: 2356}
+      Script: {instanceID: 2188}
     - Class: 114
-      Script: {instanceID: 2432}
+      Script: {instanceID: 2312}
     - Class: 114
-      Script: {instanceID: 2446}
+      Script: {instanceID: 2346}
     - Class: 114
-      Script: {instanceID: 2472}
+      Script: {instanceID: 2362}
     - Class: 114
-      Script: {instanceID: 2508}
+      Script: {instanceID: 2438}
     - Class: 114
-      Script: {instanceID: 2606}
+      Script: {instanceID: 2452}
+    - Class: 114
+      Script: {instanceID: 2478}
+    - Class: 114
+      Script: {instanceID: 2514}
     - Class: 114
       Script: {instanceID: 2612}
     - Class: 114
-      Script: {instanceID: 2740}
+      Script: {instanceID: 2618}
     - Class: 114
-      Script: {instanceID: 2796}
+      Script: {instanceID: 2746}
     - Class: 114
-      Script: {instanceID: 2834}
+      Script: {instanceID: 2802}
     - Class: 114
-      Script: {instanceID: 2878}
+      Script: {instanceID: 2810}
     - Class: 114
-      Script: {instanceID: 2904}
+      Script: {instanceID: 2840}
     - Class: 114
-      Script: {instanceID: 2982}
+      Script: {instanceID: 2884}
     - Class: 114
-      Script: {instanceID: 3026}
+      Script: {instanceID: 2910}
     - Class: 114
-      Script: {instanceID: 3028}
+      Script: {instanceID: 2988}
     - Class: 114
-      Script: {instanceID: 3196}
+      Script: {instanceID: 3032}
     - Class: 114
-      Script: {instanceID: 3394}
+      Script: {instanceID: 3034}
     - Class: 114
-      Script: {instanceID: 3502}
+      Script: {instanceID: 3202}
     - Class: 114
-      Script: {instanceID: 3550}
+      Script: {instanceID: 3400}
     - Class: 114
-      Script: {instanceID: 3578}
+      Script: {instanceID: 3508}
     - Class: 114
-      Script: {instanceID: 3582}
+      Script: {instanceID: 3556}
+    - Class: 114
+      Script: {instanceID: 3564}
+    - Class: 114
+      Script: {instanceID: 3570}
     - Class: 114
       Script: {instanceID: 3588}
     - Class: 114
-      Script: {instanceID: 3624}
+      Script: {instanceID: 3592}
     - Class: 114
-      Script: {instanceID: 3628}
+      Script: {instanceID: 3598}
     - Class: 114
-      Script: {instanceID: 3834}
+      Script: {instanceID: 3634}
     - Class: 114
-      Script: {instanceID: 3846}
+      Script: {instanceID: 3842}
     - Class: 114
-      Script: {instanceID: 4016}
+      Script: {instanceID: 3854}
     - Class: 114
-      Script: {instanceID: 4054}
+      Script: {instanceID: 4024}
     - Class: 114
-      Script: {instanceID: 4108}
+      Script: {instanceID: 4062}
     - Class: 114
-      Script: {instanceID: 4156}
+      Script: {instanceID: 4116}
     - Class: 114
-      Script: {instanceID: 4312}
+      Script: {instanceID: 4144}
     - Class: 114
-      Script: {instanceID: 4374}
+      Script: {instanceID: 4166}
     - Class: 114
-      Script: {instanceID: 4410}
+      Script: {instanceID: 4322}
     - Class: 114
-      Script: {instanceID: 4438}
+      Script: {instanceID: 4384}
+    - Class: 114
+      Script: {instanceID: 4420}
+    - Class: 114
+      Script: {instanceID: 4448}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -236,7 +254,7 @@ ScriptsOnlyBuild:
     className: Toggle
   - hash:
       serializedVersion: 2
-      Hash: 4ad8256e6da0470e516ebcd0a5c19dd1
+      Hash: b8e054e734ce0674905ec86f4fde2fab
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BuidManager
@@ -308,10 +326,28 @@ ScriptsOnlyBuild:
     className: BuildingsPanelManager
   - hash:
       serializedVersion: 2
+      Hash: 0e52941f4638db914b8e227dfe93eb0a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BuildingTypesManager
+  - hash:
+      serializedVersion: 2
+      Hash: 455293c4e74aec6838fe8b6a97b879ad
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BuildingType
+  - hash:
+      serializedVersion: 2
       Hash: c7d51c8bc66303a8ff7e5261c4631de5
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SelectPanelManager
+  - hash:
+      serializedVersion: 2
+      Hash: 308f4185ca5844022ecba73eb196cf01
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LookManager
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -356,7 +392,7 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
-      Hash: 21f2e653f2033ec21990079f1b4f6e10
+      Hash: 78835e6656b7827f4ef5f5402ad7620a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Resource
@@ -434,7 +470,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 463ad8b5e17673ead941354055a6fc98
+      Hash: a9bfec4af81edaf76c7a1cc1f953391c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerStats
@@ -560,7 +596,7 @@ ScriptsOnlyBuild:
     className: Restart
   - hash:
       serializedVersion: 2
-      Hash: 47cafe802c7f131e795bb8ee9673a05a
+      Hash: e4ff49128b2586b58df42208bc309977
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LevelManager
@@ -704,6 +740,18 @@ ScriptsOnlyBuild:
     className: DestroyPartecals
   - hash:
       serializedVersion: 2
+      Hash: 19b47bdc27a1a81b5c877796633b4238
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ResourcePanel
+  - hash:
+      serializedVersion: 2
+      Hash: 965fc4aa2f4700c6569678e5c2dd53da
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SavePanel
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -732,12 +780,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Gun
-  - hash:
-      serializedVersion: 2
-      Hash: 1e6d6ed582dbfdd0f7005c1311f9c094
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Panel
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -848,13 +890,19 @@ ScriptsOnlyBuild:
     className: TMP_ScrollbarEventHandler
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TimeScale
+  - hash:
+      serializedVersion: 2
       Hash: 143e15481d24fe9d213c38b39aee4f4a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Bullet
   - hash:
       serializedVersion: 2
-      Hash: 06b4209030f840c9ee363e341e604f69
+      Hash: 08b996582fb345efe62c2748612efa13
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LevelParametrs
@@ -897,4 +945,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/Scene.unity
-  playerPath: C:/Users/Spark/Desktop/Builds/newTD_v1.5.apk
+  playerPath: C:/Users/Spark/Desktop/Builds/newTD_v1.8.apk

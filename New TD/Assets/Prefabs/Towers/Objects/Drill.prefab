@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4429131670566405077}
   - component: {fileID: 7304480103895722034}
   - component: {fileID: 7863267567217700220}
-  - component: {fileID: -6177698996285785883}
   - component: {fileID: -6410767579005352520}
   - component: {fileID: 8611198592764849919}
   m_Layer: 0
@@ -76,19 +75,7 @@ MonoBehaviour:
   hp: 10
   map: {fileID: 0}
   cellPosition: {x: 0, y: 0, z: 0}
---- !u!114 &-6177698996285785883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6709018531857839955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a18e53aa8935a5d49a3b40ea434e3fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moneyPerSec: 3
+  parameters: {fileID: 0}
 --- !u!114 &-6410767579005352520
 MonoBehaviour:
   m_ObjectHideFlags: 0

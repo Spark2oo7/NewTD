@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0.9811321, g: 0.84053016, b: 0.032395888, a: 1}
   id: 1
+  icon: {fileID: 21300000, guid: 881ab6205978e8b4397f336cb2b028bb, type: 3}

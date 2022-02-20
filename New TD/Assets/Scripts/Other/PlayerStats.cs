@@ -10,7 +10,6 @@ public class PlayerStats : MonoBehaviour
     static public bool pause = false;
     static public bool particlesEnabled = true;
     static public int gridSize;
-    public int inspectorGridSize;
     static public float timeToEnd;
     public float inspectortimeToEnd;
 
@@ -19,7 +18,6 @@ public class PlayerStats : MonoBehaviour
         PlayerStats.Play();
         PlayerStats.time = inspectortime;
         timeToEnd = inspectortimeToEnd;
-        gridSize = inspectorGridSize;
         money = startMoney;
         fixationSelection = PlayerPrefs.GetInt("fixationSelection", 0) == 1;
         particlesEnabled = PlayerPrefs.GetInt("particlesEnabled", 1) == 1;

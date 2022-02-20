@@ -16,9 +16,21 @@ public class Warehouse : MonoBehaviour
     
     void Start()
     {
+        foreach (Order order in orders)
+        {
+            storeds.Add(order.resource, new Stored(order.resource));
+        }
+
         foreach (Stored stored in startStoreds)
         {
-            storeds.Add(stored.resource, stored);
+            if (storeds.ContainsKey(stored.resource))
+            {
+                storeds[stored.resource] = stored;
+            }
+            else
+            {
+                storeds.Add(stored.resource, stored);
+            }
         }
 
         if (!waitForRecording)

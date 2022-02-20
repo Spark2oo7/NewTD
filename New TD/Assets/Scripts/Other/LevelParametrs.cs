@@ -7,6 +7,7 @@ public class LevelParametrs : MonoBehaviour
     public Tilemap floorMap;
     public Tilemap oresMap;
     public int gridSize;
+    public string mode;
 
     public Stored[] startStoreds;
     public TowerParameters[] availableTowers;
@@ -152,5 +153,19 @@ public class SavedEnemy
         Enemy script = enemy.GetComponent<Enemy>();
         hp = script.hp;
         position = Vector2Int.RoundToInt(enemy.transform.position);
+    }
+}
+
+
+[System.Serializable]
+public class Shortly
+{
+    public float time;
+    public string mode;
+
+    public Shortly(SavedLevelParametrs parametrs)
+    {
+        time = parametrs.time;
+        mode = parametrs.level.mode;
     }
 }

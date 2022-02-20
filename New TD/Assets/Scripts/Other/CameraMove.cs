@@ -166,4 +166,11 @@ public class CameraMove : MonoBehaviour
 
         return distance / oldDistance;
     }
+
+    public void SetSize()
+    {
+        clamp_x = PlayerStats.gridSize;
+        clamp_y = PlayerStats.gridSize;
+        max_size = PlayerStats.gridSize + 10f;
+    }
 }

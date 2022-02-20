@@ -18,30 +18,31 @@ public class LevelManager : MonoBehaviour
     public RoadsManager roadsManager;
     public BuidManager buidManager;
     public WaveText waveText;
+    public CameraMove cameraMove;
     public Tilemap floor;
     public Tilemap ores;
     public Warehouse home;
     private LevelParametrs currentLevel;
-    private string path;
 
-    void Start()
-    {
-        path = Application.persistentDataPath + "/save1.txt";
-    }
-
-    public void Save()
+    public void Save(int number)
     {
         SavedLevelParametrs save = CreateSave();
 
         string json = JsonUtility.ToJson(save);
+        string path = GetPath(number, false);
 
         File.WriteAllText(path, json);
-        Debug.Log("save");
+
+        Shortly shortly = new Shortly(save);
+
+        path = GetPath(number, true);
+        json = JsonUtility.ToJson(shortly);
+
+        File.WriteAllText(path, json);
     }
 
     public void LoadSave(SavedLevelParametrs parametrs)
     {
-        Debug.Log("load");
         playerStats.inspectortime = parametrs.time;
         PlayerStats.gridSize = parametrs.level.gridSize;
         LoadLevel(parametrs.level, false);
@@ -51,8 +52,9 @@ public class LevelManager : MonoBehaviour
         spawnerEnemy.LoadEnemys(parametrs.enemys);
     }
 
-    public void Load()
+    public void Load(int number)
     {
+        string path = GetPath(number, false);
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -69,7 +71,8 @@ public class LevelManager : MonoBehaviour
     {
         currentLevel = parametrs;
 
-        playerStats.inspectorGridSize = parametrs.gridSize;
+        PlayerStats.gridSize = parametrs.gridSize;
+        
         playerStats.inspectortimeToEnd = parametrs.timeToEnd;
         if (resetTime)
         {
@@ -78,10 +81,13 @@ public class LevelManager : MonoBehaviour
 
         towerManager.SetTowersParameters(parametrs.availableTowers);
 
+        parametrs.floorMap.CompressBounds();
+        parametrs.oresMap.CompressBounds();
+
         var data = parametrs.floorMap.GetTilesBlock(parametrs.floorMap.cellBounds); //maps
-        floor.SetTilesBlock(floor.cellBounds, data);
+        floor.SetTilesBlock(parametrs.floorMap.cellBounds, data);
         data = parametrs.oresMap.GetTilesBlock(parametrs.oresMap.cellBounds);
-        ores.SetTilesBlock(ores.cellBounds, data);
+        ores.SetTilesBlock(parametrs.oresMap.cellBounds, data);
         
         Export[] exports = new Export[parametrs.startStoreds.Length]; //home
         for (int i = 0; i < parametrs.startStoreds.Length; i++)
@@ -93,6 +99,7 @@ public class LevelManager : MonoBehaviour
         home.startStoreds = copyStoredArray(parametrs.startStoreds);
         spawnerEnemy.enemyes = parametrs.enemyes; //enemy
         spawnerEnemy.chancesFromTime = parametrs.chancesFromTime;
+        cameraMove.SetSize();
 
         waveText.waves = parametrs.waves;
 
@@ -153,5 +160,21 @@ public class LevelManager : MonoBehaviour
         }
 
         return orders;
+    }
+
+    static public string GetPath(int number, bool shortly)
+    {
+        string path;
+
+        if (shortly)
+        {
+            path = Application.persistentDataPath + "/shortly" + number.ToString() + ".txt";
+        }
+        else
+        {
+            path = Application.persistentDataPath + "/save" + number.ToString() + ".txt";
+        }
+
+        return path;
     }
 }

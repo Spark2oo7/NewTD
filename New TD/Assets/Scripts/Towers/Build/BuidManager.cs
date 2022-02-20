@@ -8,6 +8,7 @@ public class BuidManager : MonoBehaviour
     public TileBase[] purpose = new TileBase[4];
     public BuildingsPanelManager panelManager;
     public RoadsManager roadsManager;
+    public LookManager lookManager;
     public Transform listTowers;
 
     [Header("Tower")]
@@ -31,6 +32,8 @@ public class BuidManager : MonoBehaviour
     
     // [Header("Grids")]
     public static GameObject[,] towersGrid;
+
+    private Vector3Int startCellPosition;
 
     void Start()
     {
@@ -58,40 +61,86 @@ public class BuidManager : MonoBehaviour
 
     void Update()
     {
-        if (!towerEnabled)
+        if (!towerEnabled && BuildingTypesManager.buildingType.title != "look")
             return;
 
-        if (Input.GetMouseButton(0) || Input.touchCount == 1)
+        if (Input.GetMouseButton(0) || Input.touchCount == 1) //нажато
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (!bildings.Raycast(ray, out _, 1f))
+            if (BuildingTypesManager.buildingType.title != "look")
             {
-                if (towerParameters.type == TowerParameters.Type.road)
-                    Build(towerParameters, Vector3Int.zero, true, false, true);
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                if (!bildings.Raycast(ray, out _, 1f))
+                {
+                    if (towerParameters.type == TowerParameters.Type.road)
+                    {
+                        Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                        Vector3Int clickCellPosition = GetTargetMap(towerParameters).WorldToCell(clickWorldPosition);
+                        Build(towerParameters, clickCellPosition, true, false, true);
+                    }
+                    else
+                    {
+                        if (BuildingTypesManager.buildingType.title == "area")
+                        {
+                            PurposeArea();
+                        }
+                        else
+                        {
+                            Purpose();
+                        }
+                    }
+                }
                 else
-                    Purpose();
-            }
-            else
-            {
-                map_p.ClearAllTiles();
+                {
+                    map_p.ClearAllTiles();
+                }
             }
         }
 
-        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        if ((Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended) || Input.GetMouseButtonUp(0)) //отжатие, постройка
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (!bildings.Raycast(ray, out _, 1f))
+            if (BuildingTypesManager.buildingType.title != "look")
             {
-                Build(towerParameters, Vector3Int.zero, true, false, true);
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                if (!bildings.Raycast(ray, out _, 1f))
+                {
+                    Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3Int clickCellPosition = GetTargetMap(towerParameters).WorldToCell(clickWorldPosition);
+                    if (BuildingTypesManager.buildingType.title == "area")
+                    {
+                        BuildArea(towerParameters, startCellPosition, clickCellPosition);
+                    }
+                    else
+                    {
+                        Build(towerParameters, clickCellPosition, true, false, true);
+                    }
+                }
             }
+
+            // if (BuildingTypesManager.buildingType.title == "area")
+            // {
+            //     startArea = false;
+            // }
         }
 
-        if (Input.GetMouseButtonUp(0)) //постройка
+        if ((Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetMouseButtonDown(0)) //нажатие
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (!bildings.Raycast(ray, out _, 1f))
+            if (BuildingTypesManager.buildingType.title == "look")
             {
-                Build(towerParameters, Vector3Int.zero, true, false, true);
+                Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                Vector3Int cellPosition = map_t.WorldToCell(clickWorldPosition);
+
+                if (map_f.GetTile(cellPosition))
+                {
+                    lookManager.SetTargetTower(GetTower(cellPosition));
+                    
+                    PurposeTower(cellPosition);
+                }
+            }
+
+            if (BuildingTypesManager.buildingType.title == "area")
+            {
+                Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                startCellPosition = GetTargetMap(towerParameters).WorldToCell(clickWorldPosition);
             }
         }
     }
@@ -132,6 +181,45 @@ public class BuidManager : MonoBehaviour
             }
             map_p.SetTile(clickCellPosition, purpose[3]);
         }
+    }
+
+    public void PurposeArea()
+    {
+        map_p.ClearAllTiles();
+
+        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int clickCellPosition = map_p.WorldToCell(worldPosition);
+
+        if (!map_f.GetTile(clickCellPosition))
+            return;
+        
+        int minX = Mathf.Min(startCellPosition.x, clickCellPosition.x);
+        int maxX = Mathf.Max(startCellPosition.x, clickCellPosition.x);
+
+        int minY = Mathf.Min(startCellPosition.y, clickCellPosition.y);
+        int maxY = Mathf.Max(startCellPosition.y, clickCellPosition.y);
+
+        for (int x = minX; x <= maxX; x++)
+        {
+            for (int y = minY; y <= maxY; y++)
+            {
+                Vector3Int cellPosition = new Vector3Int(x, y, 0);
+                if ((!map_t.GetTile(cellPosition) && (towerParameters.type != TowerParameters.Type.delete)) || (map_t.GetTile(cellPosition) && (towerParameters.type == TowerParameters.Type.delete))) //белое
+                {
+                    map_p.SetTile(cellPosition, purpose[0]);
+                }
+                else //красное
+                {
+                    map_p.SetTile(cellPosition, purpose[2]);
+                }
+            }
+        }
+    }
+
+    public void PurposeTower(Vector3Int cellPosition)
+    {
+        map_p.ClearAllTiles();
+        map_p.SetTile(cellPosition, purpose[0]);
     }
 
     public GameObject GetTower(Vector3Int CellPosition)
@@ -182,12 +270,6 @@ public class BuidManager : MonoBehaviour
             target_map = map_r;
             InstantiatenObject = towerParameters.towerObject;
             InstantiatenTile = towerParameters.tile;
-
-            if (clickCellPosition == Vector3Int.zero)
-            {
-                Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-                clickCellPosition = target_map.WorldToCell(clickWorldPosition);
-            }
 
             if (!map_f.GetTile(clickCellPosition) || !map_f.GetTile(clickCellPosition + Vector3Int.right + Vector3Int.up))
                 return;
@@ -279,6 +361,40 @@ public class BuidManager : MonoBehaviour
             }
         }
         map_p.ClearAllTiles();
+    }
+
+    public void BuildArea(TowerParameters towerParameters, Vector3Int startCellPosition, Vector3Int endCellPosition)
+    {
+        int minX = Mathf.Min(startCellPosition.x, endCellPosition.x);
+        int maxX = Mathf.Max(startCellPosition.x, endCellPosition.x);
+
+        int minY = Mathf.Min(startCellPosition.y, endCellPosition.y);
+        int maxY = Mathf.Max(startCellPosition.y, endCellPosition.y);
+
+        for (int x = minX; x <= maxX; x++)
+        {
+            for (int y = minY; y <= maxY; y++)
+            {
+                Vector3Int cellPosition = new Vector3Int(x, y, 0);
+                Build(towerParameters, cellPosition, true, false, true);
+            }
+        }
+    }
+
+    public Tilemap GetTargetMap(TowerParameters towerParameters)
+    {
+        Tilemap target_map;
+        
+        if (towerParameters.type == TowerParameters.Type.road)
+        {
+            target_map = map_r;
+        }
+        else
+        {
+            target_map = map_t;
+        }
+
+        return target_map;
     }
 
     public bool GetTowerEnabled()
