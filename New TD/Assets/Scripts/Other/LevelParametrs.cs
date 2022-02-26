@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
 public class LevelParametrs : MonoBehaviour
@@ -16,6 +15,7 @@ public class LevelParametrs : MonoBehaviour
     public Wave[] waves = new Wave[0];
     public GameObject[] enemyes = new GameObject[0];
     public AnimationCurve[] chancesFromTime = new AnimationCurve[0];
+    public Tilemap spawnPositions;
 }
 
 public class SavedLevelParametrs

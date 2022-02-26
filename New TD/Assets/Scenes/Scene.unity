@@ -2077,7 +2077,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 6650653594791189624, guid: aa0ebd6f3368e95429093b8cbe049f4a,
+      objectReference: {fileID: 6650653594791189624, guid: 3662e24456bc5c045bf836cad5be4b3c,
         type: 3}
     - target: {fileID: 3181749312646968363, guid: e821b696b5f6d0649ac942caa76256c5,
         type: 3}
@@ -27459,6 +27459,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   listEnemys: {fileID: 1056672739}
+  spawnPositionsTilemap: {fileID: 0}
 --- !u!1 &1166677098
 GameObject:
   m_ObjectHideFlags: 0

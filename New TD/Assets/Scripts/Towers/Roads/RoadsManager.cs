@@ -102,7 +102,6 @@ public class RoadsManager : MonoBehaviour // отвечает за дороги
 
     public Point BFS(Vector2Int start, Resource resource) //поиск в ширину
     {
-        
         if(!resourceGrid.ContainsKey(resource))
             return null;
 
@@ -127,7 +126,7 @@ public class RoadsManager : MonoBehaviour // отвечает за дороги
 
         int i = 0;
 
-        while (extremePoints.Count > 0 && i < 500)
+        while (extremePoints.Count > 0 && i < 1000)
         {
             Point minPoint = GetMinPoint(extremePoints);
 

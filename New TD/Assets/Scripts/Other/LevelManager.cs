@@ -99,6 +99,7 @@ public class LevelManager : MonoBehaviour
         home.startStoreds = copyStoredArray(parametrs.startStoreds);
         spawnerEnemy.enemyes = parametrs.enemyes; //enemy
         spawnerEnemy.chancesFromTime = parametrs.chancesFromTime;
+        spawnerEnemy.spawnPositionsTilemap = parametrs.spawnPositions;
         cameraMove.SetSize();
 
         waveText.waves = parametrs.waves;

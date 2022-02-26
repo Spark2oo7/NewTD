@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BuidManager : MonoBehaviour
 {
@@ -27,7 +27,6 @@ public class BuidManager : MonoBehaviour
 
     [Header("Camera")]
     public Camera mainCamera;
-    public Collider bildings;
 
     
     // [Header("Grids")]
@@ -68,8 +67,7 @@ public class BuidManager : MonoBehaviour
         {
             if (BuildingTypesManager.buildingType.title != "look")
             {
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                if (!bildings.Raycast(ray, out _, 1f))
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
                     if (towerParameters.type == TowerParameters.Type.road)
                     {
@@ -91,7 +89,14 @@ public class BuidManager : MonoBehaviour
                 }
                 else
                 {
-                    map_p.ClearAllTiles();
+                    if (BuildingTypesManager.buildingType.title == "area")
+                    {
+                        PurposeArea();
+                    }
+                    else
+                    {
+                        map_p.ClearAllTiles();
+                    }
                 }
             }
         }
@@ -100,8 +105,7 @@ public class BuidManager : MonoBehaviour
         {
             if (BuildingTypesManager.buildingType.title != "look")
             {
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                if (!bildings.Raycast(ray, out _, 1f))
+                if (!EventSystem.current.IsPointerOverGameObject())
                 {
                     Vector3 clickWorldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
                     Vector3Int clickCellPosition = GetTargetMap(towerParameters).WorldToCell(clickWorldPosition);
@@ -189,9 +193,6 @@ public class BuidManager : MonoBehaviour
 
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int clickCellPosition = map_p.WorldToCell(worldPosition);
-
-        if (!map_f.GetTile(clickCellPosition))
-            return;
         
         int minX = Mathf.Min(startCellPosition.x, clickCellPosition.x);
         int maxX = Mathf.Max(startCellPosition.x, clickCellPosition.x);
@@ -271,7 +272,9 @@ public class BuidManager : MonoBehaviour
             InstantiatenObject = towerParameters.towerObject;
             InstantiatenTile = towerParameters.tile;
 
-            if (!map_f.GetTile(clickCellPosition) || !map_f.GetTile(clickCellPosition + Vector3Int.right + Vector3Int.up))
+            if (!map_f.GetTile(clickCellPosition) || !map_f.GetTile(clickCellPosition + Vector3Int.up))
+                return;
+            if (!map_f.GetTile(clickCellPosition + Vector3Int.right) || !map_f.GetTile(clickCellPosition + Vector3Int.right + Vector3Int.up))
                 return;
         }
         else

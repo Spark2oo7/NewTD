@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8650878055ad894ab4703783be99734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorMap: {fileID: 3461612859283713909, guid: 5e0f8f93868eb9d4ba4abd6f825162be,
+  floorMap: {fileID: 3461612859283713909, guid: 711353ec862f8374ea8e677804be4120,
     type: 3}
   oresMap: {fileID: 1668044194827100943, guid: 4a373df7c37d9c442bef11398b92d633, type: 3}
   gridSize: 20

@@ -1,4 +1,5 @@
 ﻿using UnityEngine; //это не мой скрипт, а его взял из каккой-то статьи в интернете. А потом забыл написать
+using UnityEngine.EventSystems;
 
 public class CameraMove : MonoBehaviour
 {
@@ -29,31 +30,36 @@ public class CameraMove : MonoBehaviour
     {
         
 #if UNITY_EDITOR //это мой код
-    if (Input.GetMouseButton(2)) //move
-    {
-        Vector3 mousePos = Input.mousePosition;
-        if (lastMousePos != Vector3.zero)
+        if (Input.GetMouseButton(2)) //move
         {
-            transform.position += cam.ScreenToWorldPoint(lastMousePos) - cam.ScreenToWorldPoint(mousePos);
+            Vector3 mousePos = Input.mousePosition;
+            if (lastMousePos != Vector3.zero)
+            {
+                transform.position += cam.ScreenToWorldPoint(lastMousePos) - cam.ScreenToWorldPoint(mousePos);
+            }
+            lastMousePos = mousePos;
         }
-        lastMousePos = mousePos;
-    }
-    else
-    {
-        lastMousePos = Vector3.zero;
-    }
+        else
+        {
+            lastMousePos = Vector3.zero;
+        }
 
 
-    float scroll = 1 - Input.GetAxis("Mouse ScrollWheel"); //zoom
-    if (scroll != 1)
-    {
-        Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 camPos = transform.position;
-        transform.position = mousePos + (camPos - mousePos)*scroll;
+        float scroll = 1 - Input.GetAxis("Mouse ScrollWheel"); //zoom
+        if (scroll != 1)
+        {
+            Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 camPos = transform.position;
+            transform.position = mousePos + (camPos - mousePos)*scroll;
         
-        cam.orthographicSize *= scroll;
-    }
+            cam.orthographicSize *= scroll;
+        }
 #endif
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
 
         if (Input.touchCount == 1 && (!bm.GetTowerEnabled())) //это не мой код
         {

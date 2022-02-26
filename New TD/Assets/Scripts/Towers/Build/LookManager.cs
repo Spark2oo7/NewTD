@@ -13,16 +13,18 @@ public class LookManager : MonoBehaviour
         if (newTargetTower == null)
         {
             targetWarehouse = null;
+            nowShow = new Dictionary<Resource, int>();
         }
         else
         {
             targetWarehouse = newTargetTower.GetComponent<Warehouse>();
+            nowShow = new Dictionary<Resource, int>();
         }
     }
 
     void Update()
     {
-        if (!this.gameObject.activeSelf)
+        if (!gameObject.activeSelf)
             return;
         if (targetWarehouse == null)
         {
@@ -31,7 +33,7 @@ public class LookManager : MonoBehaviour
                 nowShow.Clear();
                 for (int i = 0; i < grid.childCount; i++)
                 {
-                    GameObject.Destroy(grid.GetChild(i).gameObject);
+                    Destroy(grid.GetChild(i).gameObject);
                 }
             }
             return;
@@ -44,7 +46,7 @@ public class LookManager : MonoBehaviour
             nowShow.Clear();
             for (int i = 0; i < grid.childCount; i++)
             {
-                GameObject.Destroy(grid.GetChild(i).gameObject);
+                Destroy(grid.GetChild(i).gameObject);
             }
 
             var storeds = targetWarehouse.storeds;
