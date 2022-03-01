@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
     public Tilemap ores;
     public Warehouse home;
     private LevelParametrs currentLevel;
+    public static bool Ukraine;
 
     public void Save(int number)
     {
@@ -103,6 +104,8 @@ public class LevelManager : MonoBehaviour
         cameraMove.SetSize();
 
         waveText.waves = parametrs.waves;
+
+        Ukraine = parametrs.mode == "Украина";
 
         levelObject.SetActive(true);
     }

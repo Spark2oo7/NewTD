@@ -43,6 +43,7 @@ ScriptsOnlyBuild:
     - WaveText
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridBrush
+    - UnityEditor.Tilemaps.GridBrushEditor
     - UnityEditor.Tilemaps.GridPaintPaletteClipboard
     - UnityEditor.Tilemaps.GridPaintPaletteWindow
     - UnityEditor.Tilemaps.GridPaintingState
@@ -192,23 +193,23 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3854}
     - Class: 114
-      Script: {instanceID: 4024}
+      Script: {instanceID: 4026}
     - Class: 114
-      Script: {instanceID: 4062}
+      Script: {instanceID: 4064}
     - Class: 114
-      Script: {instanceID: 4116}
+      Script: {instanceID: 4118}
     - Class: 114
-      Script: {instanceID: 4144}
+      Script: {instanceID: 4146}
     - Class: 114
-      Script: {instanceID: 4166}
+      Script: {instanceID: 4168}
     - Class: 114
-      Script: {instanceID: 4322}
+      Script: {instanceID: 4324}
     - Class: 114
-      Script: {instanceID: 4384}
+      Script: {instanceID: 4386}
     - Class: 114
-      Script: {instanceID: 4420}
+      Script: {instanceID: 4422}
     - Class: 114
-      Script: {instanceID: 4448}
+      Script: {instanceID: 4450}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -254,7 +255,7 @@ ScriptsOnlyBuild:
     className: Toggle
   - hash:
       serializedVersion: 2
-      Hash: b8e054e734ce0674905ec86f4fde2fab
+      Hash: caca5eab44b3155c7ff84042bb7ec946
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BuidManager
@@ -404,7 +405,7 @@ ScriptsOnlyBuild:
     className: EnumerableTestState
   - hash:
       serializedVersion: 2
-      Hash: 6d9014b37ec6061e966c61e876722a66
+      Hash: 4f2088a0ad3c6b0f0b4e6f0d3fa2af5c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: House
@@ -746,7 +747,7 @@ ScriptsOnlyBuild:
     className: ResourcePanel
   - hash:
       serializedVersion: 2
-      Hash: 965fc4aa2f4700c6569678e5c2dd53da
+      Hash: fbe7a74266effca9b96dd92d4a1df87e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SavePanel
@@ -770,7 +771,7 @@ ScriptsOnlyBuild:
     className: Mask
   - hash:
       serializedVersion: 2
-      Hash: dc31f2f1a4749e6eea50605f9fcacc79
+      Hash: 390c1caaec3e49fb7c4ffa182ea59a7c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SpawnerEnemy
@@ -902,7 +903,7 @@ ScriptsOnlyBuild:
     className: Bullet
   - hash:
       serializedVersion: 2
-      Hash: 08b996582fb345efe62c2748612efa13
+      Hash: 24f79922553a09a85413e1a63d9a62bb
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LevelParametrs
@@ -945,4 +946,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/Scene.unity
-  playerPath: C:/Users/Spark/Desktop/Builds/newTD_v1.8.apk
+  playerPath: C:/Users/Spark/Desktop/Builds/newTD_v1.8.1.apk

@@ -11,6 +11,8 @@ public class SavePanel : MonoBehaviour
     public Text timeText;
     public bool saveOrLoad;
     public bool delete;
+    public Image image;
+    public Sprite Ukraine;
 
     void Start()
     {
@@ -22,6 +24,10 @@ public class SavePanel : MonoBehaviour
             Shortly parametrs = JsonUtility.FromJson<Shortly>(json);
             modeText.text = parametrs.mode;
             timeText.text = parametrs.time.ToString("0") + "с";
+            if (parametrs.mode == "Украина")
+            {
+                image.sprite = Ukraine;
+            }
         }
         else
         {

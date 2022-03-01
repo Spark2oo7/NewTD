@@ -9,6 +9,7 @@ public class House : MonoBehaviour
 
     public GameObject gameOver;
     public GameObject win;
+    public GameObject UkraineWin;
 
     public string enemyTag;
 
@@ -30,7 +31,14 @@ public class House : MonoBehaviour
                     PlayerPrefs.SetInt("completeLevels", PlayerPrefs.GetInt("completeLevels", 0) + 1);
                 }
                 PlayerStats.Pause();
-                win.SetActive(true);
+                if (LevelManager.Ukraine)
+                {
+                    UkraineWin.SetActive(true);
+                }
+                else
+                {
+                    win.SetActive(true);
+                }
             }
         }
     }

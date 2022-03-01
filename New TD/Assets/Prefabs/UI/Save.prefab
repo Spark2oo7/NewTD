@@ -311,6 +311,10 @@ MonoBehaviour:
   numberText: {fileID: 2365438073566349002}
   modeText: {fileID: 869420890806993213}
   timeText: {fileID: 6342258931474628841}
+  saveOrLoad: 0
+  delete: 0
+  image: {fileID: 7325886920022537015}
+  Ukraine: {fileID: 21300000, guid: 66fda5a6e38cc054b82f89ee2643a9b4, type: 3}
 --- !u!1 &8020133607368175056
 GameObject:
   m_ObjectHideFlags: 0
